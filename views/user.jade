@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  div
+    p Name : #{name}
+    img(alt="#{name}", height="300", width="240" ,src="#{foto}")
+    br
+    a(href='/dashboard') Voltar
+    script(src='/javascripts/userctrl.js')
