@@ -3,7 +3,8 @@ var formidable = require('formidable'),
 	express = require('express'),
 	router = express.Router(),
 	fs = require('fs'),
-	User = models.User;
+	User = models.User,
+	error = null;
 	
 
 /* GET home page. */
@@ -40,13 +41,12 @@ router.delete('/user/:id',function (req, res ) {
 
 		if(err){
 		  res
-		   .status(500)
-		   .send({ error: err });
+		   .status(500).send({ error: err });
 		}
 		else{
 			res
 				.status(200)
-				.send('deletado');
+				.send('deletado')
 		}
 		
 	})
@@ -55,13 +55,12 @@ router.delete('/user/:id',function (req, res ) {
 router.get('/dashboard',function (req , res) {
 	res.render('dashboard');	
 });
-var error = null;
+
 router.get('/createUser',function (req , res) {
 	res.render('createUser',{ error : error});	
 });
 
 router.post('/user', function (req,res,next) {
-	
 	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
     var img = files.todo;
