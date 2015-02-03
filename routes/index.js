@@ -28,7 +28,7 @@ router.get('/user',function (req ,res ) {
 router.get('/user/:id',function (req, res ) {
 	User.findOne({_id: req.params.id},function (err, user) {
 		if(err) throw err;
-		res.render('user',{
+		res.render('userDetails',{
 			id : user._id,
 			name : user.name,
 			foto : 'data:image/jpeg;base64,'+user.foto.toString('base64') 
@@ -37,15 +37,27 @@ router.get('/user/:id',function (req, res ) {
 })
 router.delete('/user/:id',function (req, res ) {
 	User.remove({_id: req.params.id},function (err, result) {
-		if(err) throw err;
+
+		if(err){
+		  res
+		   .status(500)
+		   .send({ error: err });
+		}
 		else{
-			res.render('dashboard',{ result : result});	
+			res
+				.status(200)
+				.send('deletado');
 		}
 		
 	})
 });
+
 router.get('/dashboard',function (req , res) {
 	res.render('dashboard');	
+});
+var error = null;
+router.get('/createUser',function (req , res) {
+	res.render('createUser',{ error : error});	
 });
 
 router.post('/user', function (req,res,next) {
@@ -59,8 +71,14 @@ router.post('/user', function (req,res,next) {
 	     		name : fields.name,
 	     		foto : data
 	     	},function(err, user) {
-	     		if(err) next(err);
-	     		if(user) res.redirect('/dashboard')	     		
+	     		if(err){
+	     			error = err;
+	     			res.redirect('/#createUser');	
+	     		} 
+	     		if(user){
+	     			error = null;
+	     			res.redirect('/#dashboard');	     		
+	     		} 
 	     	});
 
 	    });

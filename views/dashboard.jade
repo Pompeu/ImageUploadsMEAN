@@ -1,14 +1,14 @@
-extends layout
-
 block content
-  .container(ng-controller='UserCtrl')
-    div
+  .container
+    div(class=".alert-info",ng-if="msg")
+      p {{msg}}
+    div(ng-if="users.length")
       label Buscar 
       input(ng-model='user.name')
-      a(href="/") Gravar Outras
+      a(class="btn btn-success" ,ng-href="#createUser") Gravar Outras
     div(style="width=800")
-      div(style="float : left; padding: 10px" ng-repeat="user in users | filter:user.name")
-        a(ng-href="/user/{{user.id}}") 
-          p Name : {{user.name}}
-          img(alt="{{user.name}}", height="200", width="200" ,ng-src="{{user.foto}}")
-    script(src='/javascripts/userctrl.js')
+      div(style="float : left; padding: 10px" ng-repeat="user in users | filter:user.name | orderBy:'user.name'")
+        label Name : {{user.name}}
+        img(class="img-circle" ,alt="{{user.name}}", height="200", width="200" ,ng-src="{{user.foto}}")
+        br
+        a(class="btn btn-primary" ,ng-href="#dashboard", ng-click="delete(user , $index)") Delete

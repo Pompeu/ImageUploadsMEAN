@@ -1,21 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  form(action="/user", method="POST", enctype="multipart/form-data")
-    div
-      label image
-      input(type='file', name='todo')
-    div
-      labal Name
-      input(type='text', name='name')
-    div
-      button(type='submit') Save
-    if user
-      div
-      label image
-      img(alt="#{user.name}", height="200", width="200" ,src="#{user.foto}")
-      div
-        labal Name
-        input(type='text', name='name',  value="#{user.name}") 
+  div(class="container" , ng-app="App" ,ng-controller="UserCtrl")
+    ul(class="nav nav-tabs")
+      li(role="presentation")
+        a(href='#usercreate') Crete User 
+      li(role="presentation")
+        a(href='#dashboard') Dashboard
+    .ng-view
